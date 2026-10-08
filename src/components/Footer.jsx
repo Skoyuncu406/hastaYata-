@@ -465,10 +465,9 @@ export default function Footer() {
             sm:pt-4 sm:text-[11px]
           "
         >
-          <p>
-            © {new Date().getFullYear()} Ankara Hasta Yatağı.
-            Tüm hakları saklıdır.
-          </p>
+<p>
+  © 2026 Ankara Hasta Yatağı. Tüm hakları saklıdır.
+</p>
 
           <p>
             Çankaya / Ankara
