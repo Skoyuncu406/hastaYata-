@@ -11,8 +11,8 @@ import {
   MessageCircle,
 } from "lucide-react";
 
-const PHONE = "+905318280850";
-const WHATSAPP = "905318280850";
+const PHONE = "+905302091997";
+const WHATSAPP = "905302091997";
 
 const navigation = [
   { label: "Anasayfa", href: "#anasayfa", id: "anasayfa" },

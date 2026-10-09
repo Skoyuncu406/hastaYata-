@@ -1,10 +1,13 @@
 
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   Truck,
   Headset,
   CalendarDays,
-  Wrench,
+  BedDouble,
   MapPin,
 } from "lucide-react";
 
@@ -12,189 +15,239 @@ const features = [
   {
     icon: Truck,
     title: "Ücretsiz Teslimat",
-    description: "ve Kurulum",
+    description: "Kurulum dahil",
   },
   {
     icon: Headset,
-    title: "7/24 Teknik",
-    description: "Destek",
+    title: "7/24 Teknik Destek",
+    description: "Her zaman yanınızda",
   },
   {
     icon: CalendarDays,
-    title: "Kiralama",
-    description: "Seçenekleri",
+    title: "Kiralama Seçenekleri",
+    description: "İhtiyacınıza uygun",
   },
   {
-    icon: Wrench,
-    title: "Satış ve Yedek",
-    description: "Parça Desteği",
+    icon: BedDouble,
+    title: "Satış ve Yedek Parça",
+    description: "Güvenilir çözümler",
   },
 ];
 
 export default function Hero() {
+  const locationRef = useRef(null);
+  const headingRef = useRef(null);
+  const descriptionRef = useRef(null);
+
+  useEffect(() => {
+    const elements = [
+      { element: locationRef.current, delay: 150 },
+      { element: headingRef.current, delay: 350 },
+      { element: descriptionRef.current, delay: 650 },
+    ];
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reduceMotion) return;
+
+    const animations = elements
+      .filter(({ element }) => element)
+      .map(({ element, delay }) => {
+        return element.animate(
+          [
+            {
+              opacity: 0,
+              transform: "translate3d(-90px, 0, 0)",
+            },
+            {
+              opacity: 1,
+              transform: "translate3d(0, 0, 0)",
+            },
+          ],
+          {
+            duration: 1200,
+            delay,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            fill: "both",
+          }
+        );
+      });
+
+    return () => {
+      animations.forEach((animation) => {
+        animation.cancel();
+      });
+    };
+  }, []);
+
   return (
     <section
       id="anasayfa"
-      aria-labelledby="hero-title"
       className="
         relative isolate flex
         h-[calc(100svh-100px)]
         min-h-0 flex-col
-        overflow-hidden bg-[#F3EBDD]
+        overflow-hidden
+        bg-[#082B60]
       "
     >
       {/* BACKGROUND IMAGE */}
-      <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+      <div className="absolute inset-0 -z-20">
         <Image
           src="/images/hero-bed.jpg"
-          alt=""
+          alt="Konforlu hasta yatağı ve evde bakım ortamı"
           fill
           priority
-          quality={90}
           sizes="100vw"
           className="
             object-cover
-            object-[62%_center]
-            md:object-[60%_center]
+            object-[58%_center]
             lg:object-center
           "
         />
       </div>
 
-      {/* MOBILE OVERLAY */}
+      {/* BACKGROUND OVERLAY */}
       <div
         className="
-          pointer-events-none absolute inset-0 -z-10
+          absolute inset-0 -z-10
           bg-gradient-to-r
-          from-[#F3EBDD]/95
-          via-[#F3EBDD]/80
-          to-[#F3EBDD]/40
-          lg:hidden
-        "
-      />
-
-      {/* DESKTOP OVERLAY */}
-      <div
-        className="
-          pointer-events-none absolute inset-0 -z-10
-          hidden lg:block
-          bg-gradient-to-r
-          from-[#F3EBDD]/95
-          via-[#F3EBDD]/60
-          to-transparent
+          from-[#041D42]/95
+          via-[#082B60]/75
+          to-[#082B60]/25
+          max-lg:bg-gradient-to-b
+          max-lg:from-[#041D42]/80
+          max-lg:via-[#082B60]/65
+          max-lg:to-[#041D42]/75
         "
       />
 
       {/* MAIN CONTENT */}
       <div
         className="
-          relative z-10
-          mx-auto flex min-h-0 w-full
-          max-w-[1600px] flex-1
-          items-start
-          px-5 pt-5 pb-2
-          sm:px-8 sm:pt-8
-          lg:items-center lg:px-16 lg:py-4
+          relative mx-auto flex
+          w-full max-w-[1600px]
+          min-h-0 flex-1
+          items-center
+          px-5
+          sm:px-8
+          lg:px-16
           xl:px-20
         "
       >
-        <div className="hero-reveal w-full max-w-[680px]">
-
-          {/* EYEBROW */}
-          <div className="mb-3 flex items-center gap-3 sm:mb-5 lg:mb-7">
-            <span className="h-px w-7 shrink-0 bg-[#32649A] sm:w-10" />
+        <div
+          className="
+            w-full max-w-[850px]
+            py-4
+            sm:py-6
+            lg:py-8
+          "
+        >
+          {/* LOCATION */}
+          <div
+            ref={locationRef}
+            className="
+              mb-5 flex items-center gap-2
+              text-[#D8E5F3]
+              sm:mb-6
+            "
+          >
+            <MapPin
+              size={15}
+              strokeWidth={1.5}
+              className="shrink-0 text-[#A9C5E4]"
+            />
 
             <span
               className="
-                text-[9px] font-bold uppercase
-                tracking-[0.14em] text-[#32649A]
+                text-[10px] font-semibold
+                uppercase tracking-[0.2em]
                 sm:text-[11px]
               "
             >
-              Ankara Hasta Yatağı Kiralama
+              Çankaya / Ankara
             </span>
+
+            <span className="ml-2 h-px w-9 bg-[#A9C5E4]/70" />
           </div>
 
-          {/* TITLE */}
+          {/* MAIN HEADING */}
           <h1
-            id="hero-title"
+            ref={headingRef}
             className="
               font-[family-name:var(--font-cormorant)]
-              text-[clamp(2.4rem,8vw,4.1rem)]
-              font-medium leading-[0.91]
+              text-[clamp(3.35rem,12.2vw,5.3rem)]
+              font-medium
+              leading-[0.91]
               tracking-[-0.045em]
-              text-[#082B60]
-              lg:text-[clamp(3.8rem,5.2vw,6rem)]
+              text-[#F3EBDD]
+              sm:text-[clamp(4.5rem,9vw,6.5rem)]
+              lg:text-[clamp(5.2rem,7.2vw,8.2rem)]
             "
           >
-            Sevdikleriniz
-            <br />
-            İçin Daha
-            <br />
-            <span className="italic text-[#32649A]">
-              Konforlu
+            <span className="block">
+              Sevdikleriniz
             </span>
-            <br />
-            Bir Bakım.
+
+            <span className="block">
+              İçin Daha
+            </span>
+
+            <span className="block">
+              <span className="italic text-[#A9C5E4]">
+                Konforlu
+              </span>
+            </span>
+
+            <span className="block">
+              Bir Bakım.
+            </span>
           </h1>
 
           {/* DESCRIPTION */}
           <p
+            ref={descriptionRef}
             className="
-              mt-4 max-w-[490px]
-              text-[12px] leading-[1.6]
-              text-[#415873]
-              sm:mt-6 sm:text-[14px]
-              lg:mt-8 lg:text-[16px]
-              lg:leading-[1.85]
-            "
-          >
-            Ankara genelinde hasta yatağı kiralama ve satış
-            hizmetleri. İhtiyacınıza uygun hasta yatakları,
-            profesyonel teslimat, kurulum ve teknik destek
-            çözümleriyle yanınızdayız.
-          </p>
-
-          {/* LOCATION */}
-          <div
-            className="
-              mt-4 flex flex-wrap items-center
-              gap-x-2 gap-y-1
-              text-[10px] font-medium
-              text-[#52647A]
-              sm:mt-6 sm:text-[12px]
+              mt-5 max-w-[520px]
+              text-[12px] leading-[1.75]
+              text-[#E0E8F2]/90
+              sm:mt-7
+              sm:text-[14px]
               lg:mt-8
+              lg:text-[15px]
+              lg:leading-[1.9]
             "
           >
-            <MapPin size={14} strokeWidth={1.6} />
-
-            <span>Çankaya, Ankara</span>
-
-            <span className="mx-1 h-1 w-1 rounded-full bg-[#32649A]" />
-
-            <span>Ankara Geneli Hizmet</span>
-          </div>
+            Hasta yatağı kiralama ve satış hizmetlerimizle
+            sevdiklerinizin bakım sürecini daha konforlu,
+            güvenli ve kolay hale getiriyoruz.
+          </p>
         </div>
       </div>
 
-      {/* BOTTOM FEATURES */}
+      {/* FEATURE STRIP */}
       <div
         className="
           relative z-10 shrink-0
-          border-t border-[#082B60]/10
-          bg-[#F3EBDD]/88
+          border-t border-white/20
+          bg-[#082B60]/80
           backdrop-blur-md
         "
       >
         <div
           className="
-            mx-auto grid max-w-[1600px]
+            mx-auto grid
+            max-w-[1600px]
             grid-cols-2
-            gap-x-2 gap-y-2
-            px-3 py-2.5
+            gap-x-3 gap-y-3
+            px-5 py-3
             sm:px-8 sm:py-4
-            md:grid-cols-4 md:gap-5
-            lg:px-16 lg:py-5
+            lg:grid-cols-4
+            lg:gap-6
+            lg:px-16
+            lg:py-5
             xl:px-20
           "
         >
@@ -204,47 +257,48 @@ export default function Hero() {
             return (
               <div
                 key={feature.title}
-                className="group flex min-w-0 items-center gap-2 sm:gap-3"
+                className="
+                  flex min-w-0
+                  items-center gap-2
+                  sm:gap-3
+                "
               >
-                {/* ICON */}
                 <div
                   className="
                     flex h-8 w-8 shrink-0
                     items-center justify-center
                     rounded-full
-                    border border-[#082B60]/15
-                    text-[#082B60]
-                    transition-all duration-500
-                    group-hover:border-[#082B60]
-                    group-hover:bg-[#082B60]
-                    group-hover:text-white
-                    sm:h-11 sm:w-11
+                    border border-[#A9C5E4]/35
+                    text-[#A9C5E4]
+                    sm:h-10 sm:w-10
                   "
                 >
-                  <Icon size={16} strokeWidth={1.5} />
+                  <Icon
+                    size={17}
+                    strokeWidth={1.5}
+                  />
                 </div>
 
-                {/* TEXT */}
                 <div className="min-w-0">
-                  <h3
+                  <p
                     className="
-                      text-[10px] font-semibold
-                      leading-[1.25]
-                      text-[#082B60]
-                      sm:text-[13px]
-                      lg:text-[14px]
+                      text-[9px] font-semibold
+                      leading-[1.3]
+                      text-[#F3EBDD]
+                      sm:text-[11px]
+                      lg:text-[12px]
                     "
                   >
                     {feature.title}
-                  </h3>
+                  </p>
 
                   <p
                     className="
-                      mt-0.5 text-[9px]
-                      leading-[1.25]
-                      text-[#52647A]
-                      sm:text-[11px]
-                      lg:text-[12px]
+                      mt-0.5
+                      text-[8px]
+                      leading-[1.3]
+                      text-[#D0DBE9]/70
+                      sm:text-[10px]
                     "
                   >
                     {feature.description}

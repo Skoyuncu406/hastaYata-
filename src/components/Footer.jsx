@@ -9,13 +9,13 @@ import {
   HeartPulse,
 } from "lucide-react";
 
-const PHONE = "+905318280850";
-const DISPLAY_PHONE = "0531 828 08 50";
+const PHONE = "+905302091997";
+const DISPLAY_PHONE = "0530 209 19 97";
 
 const ADDRESS =
   "Mutlukent, Doğan Taşdelen Bulvarı No:53 D:K 06260 Çankaya/ANKARA";
 
-const whatsappLink = `https://wa.me/905318280850?text=${encodeURIComponent(
+const whatsappLink = `https://wa.me/905302091997?text=${encodeURIComponent(
   "Merhaba, hasta yatağı kiralama ve satış hizmetleriniz hakkında bilgi almak istiyorum."
 )}`;
 
