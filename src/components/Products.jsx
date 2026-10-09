@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import {
@@ -69,12 +69,12 @@ const products = [
     ],
   },
   {
-    id: "azka-4001",
+    id: "brk-4001",
     number: "04",
-    name: "AZKA 4001",
+    name: "BRK 4001",
     subtitle: "4 Motorlu ABS Hasta Yatağı",
     image: "/images/azka-4001.jpg",
-    label: "AZKA 4001",
+    label: "BRK 4001",
     description:
       "Dört motorlu yapısı ve ABS korkuluk tasarımıyla gelişmiş bakım ihtiyaçlarına yönelik hasta karyolası.",
     features: [
@@ -84,12 +84,12 @@ const products = [
     ],
   },
   {
-    id: "azka-4002",
+    id: "brk-4002",
     number: "05",
-    name: "AZKA 4002",
+    name: "BRK 4002",
     subtitle: "4 Motorlu ABS Hasta Yatağı",
     image: "/images/azka-4002.jpg",
-    label: "AZKA 4002",
+    label: "BRK 4002",
     description:
       "Elektrikli hareket sistemi ve ABS korkuluklarıyla profesyonel bakım ihtiyaçlarına uygun model.",
     features: [
@@ -126,6 +126,36 @@ const products = [
       "4 motorlu sistem",
       "Çok yönlü pozisyon ayarları",
       "Kumandalı kullanım",
+    ],
+  },
+  {
+    id: "boru-tipi-havali-yatak",
+    number: "08",
+    name: "Boru Tipi",
+    subtitle: "Havalı Yatak",
+    image: "/images/boru-tipi-havali-yatak.webp",
+    label: "BORU TİPİ MODEL",
+    description:
+      "Silindirik hava hücreleriyle basınç dağılımını destekleyen, uzun süreli yatış ihtiyaçlarına yönelik havalı yatak.",
+    features: [
+      "Silindirik hava hücresi tasarımı",
+      "Dönüşümlü basınç sistemi",
+      "Elektrikli pompa ile kullanım",
+    ],
+  },
+  {
+    id: "baklava-tipi-havali-yatak",
+    number: "09",
+    name: "Baklava Tipi",
+    subtitle: "Havalı Yatak",
+    image: "/images/baklava-tipi-havali-yatak.webp",
+    label: "BAKLAVA TİPİ MODEL",
+    description:
+      "Birbirine bağlı hava odacıklarıyla basınç dağılımını destekleyen, pratik ve konforlu havalı yatak çözümü.",
+    features: [
+      "Baklava desenli hava hücreleri",
+      "Dönüşümlü basınç sistemi",
+      "Hafif ve pratik kullanım",
     ],
   },
 ];
@@ -216,8 +246,6 @@ function ImagePreview({ product, onClose }) {
   const previousFocusRef = useRef(null);
 
   useEffect(() => {
-    if (!product) return;
-
     previousFocusRef.current = document.activeElement;
 
     const previousOverflow = document.body.style.overflow;
@@ -231,7 +259,6 @@ function ImagePreview({ product, onClose }) {
         onClose();
       }
 
-      // Keep keyboard focus inside the modal.
       if (event.key === "Tab") {
         event.preventDefault();
         closeButtonRef.current?.focus();
@@ -256,9 +283,7 @@ function ImagePreview({ product, onClose }) {
         });
       }
     };
-  }, [product, onClose]);
-
-  if (!product) return null;
+  }, [onClose]);
 
   return createPortal(
     <div
@@ -325,10 +350,7 @@ function ImagePreview({ product, onClose }) {
             alt={`${product.name} ${product.subtitle}`}
             fill
             sizes="(max-width: 768px) 100vw, 1100px"
-            className="
-              object-contain
-              p-2 sm:p-4
-            "
+            className="object-contain p-2 sm:p-4"
           />
         </div>
 
@@ -351,12 +373,7 @@ function ImagePreview({ product, onClose }) {
           >
             {product.name}
 
-            <span
-              className="
-                ml-2 italic
-                text-[#32649A]
-              "
-            >
+            <span className="ml-2 italic text-[#32649A]">
               {product.subtitle}
             </span>
           </h3>
@@ -401,10 +418,7 @@ function ProductCard({ product, onPreview }) {
           bg-[#FAF7F1]
         "
       >
-        {/* =================================
-            PRODUCT IMAGE
-        ================================= */}
-
+        {/* PRODUCT IMAGE */}
         <div
           className="
             relative aspect-[16/9]
@@ -459,10 +473,7 @@ function ProductCard({ product, onPreview }) {
             {product.number}
           </span>
 
-          {/* =================================
-              ZOOM BUTTON
-          ================================= */}
-
+          {/* ZOOM BUTTON */}
           <button
             type="button"
             onClick={() => onPreview(product)}
@@ -490,17 +501,11 @@ function ProductCard({ product, onPreview }) {
               focus-visible:outline-[#32649A]
             "
           >
-            <ZoomIn
-              size={20}
-              strokeWidth={1.8}
-            />
+            <ZoomIn size={20} strokeWidth={1.8} />
           </button>
         </div>
 
-        {/* =================================
-            CARD CONTENT
-        ================================= */}
-
+        {/* CARD CONTENT */}
         <div
           className="
             relative flex flex-1 flex-col
@@ -589,10 +594,7 @@ function ProductCard({ product, onPreview }) {
                 <Check
                   size={14}
                   strokeWidth={2}
-                  className="
-                    shrink-0
-                    text-[#32649A]
-                  "
+                  className="shrink-0 text-[#32649A]"
                 />
 
                 <span>{feature}</span>
@@ -628,17 +630,11 @@ function ProductCard({ product, onPreview }) {
               focus-visible:outline-[#32649A]
             "
           >
-            <MessageCircle
-              size={16}
-              strokeWidth={1.7}
-            />
+            <MessageCircle size={16} strokeWidth={1.7} />
 
             <span>Bilgi ve Fiyat Al</span>
 
-            <ArrowUpRight
-              size={15}
-              strokeWidth={1.6}
-            />
+            <ArrowUpRight size={15} strokeWidth={1.6} />
           </a>
         </div>
 
@@ -702,10 +698,7 @@ export default function Products() {
             xl:px-20
           "
         >
-          {/* =================================
-              SECTION HEADING
-          ================================= */}
-
+          {/* SECTION HEADING */}
           <RevealOnScroll
             className="mx-auto mb-7 max-w-[1200px]"
           >
@@ -767,17 +760,15 @@ export default function Products() {
                   lg:text-[14px]
                 "
               >
-                Bakım ihtiyaçlarınıza uygun hasta yatağı
-                modellerimizi inceleyin. Kiralama ve satış
-                seçenekleri hakkında bizimle iletişime geçin.
+                Bakım ihtiyaçlarınıza uygun hasta yatağı ve
+                havalı yatak modellerimizi inceleyin. Kiralama
+                ve satış seçenekleri hakkında bizimle iletişime
+                geçin.
               </p>
             </div>
           </RevealOnScroll>
 
-          {/* =================================
-              PRODUCT GRID
-          ================================= */}
-
+          {/* PRODUCT GRID */}
           <div
             className="
               grid grid-cols-1
@@ -802,10 +793,7 @@ export default function Products() {
             ))}
           </div>
 
-          {/* =================================
-              BOTTOM NOTE
-          ================================= */}
-
+          {/* BOTTOM NOTE */}
           <RevealOnScroll className="mt-7 text-center">
             <p
               className="
@@ -814,8 +802,9 @@ export default function Products() {
                 text-[#52647A]
               "
             >
-              Size uygun hasta yatağı modelini belirlemek
-              için bizimle iletişime geçebilirsiniz.
+              Size uygun hasta yatağı veya havalı yatak
+              modelini belirlemek için bizimle iletişime
+              geçebilirsiniz.
             </p>
           </RevealOnScroll>
         </div>
